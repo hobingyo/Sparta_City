@@ -11,7 +11,7 @@ class Article(models.Model):
     title = models.CharField(("글 제목"), max_length=200)
     body = models.CharField(("글 내용"), max_length=1000)
     # 카테고리는 한개만 선택 가능하게해서 외부키로
-    categories = models.ForeignKey('Categories')
+    categories = models.ForeignKey('Categories', on_delete=models.CASCADE)
     like_users = models.ManyToManyField('Like')
     thumbnail = models.FileField(("썸네일"), )
     post_date = models.DateTimeField(("등록시간"), auto_now_add=True)
@@ -28,7 +28,7 @@ class Like(models.Model):
         return f'{self.user.username}님이 {self.articles.title}를 좋아합니다.'
 
 class Comment(models.Model):
-    user = models.ForeignKey('user.User', verbose_nam="댓글 작성자", on_delete=models.CASCADE)
+    user = models.ForeignKey('user.User', verbose_name="댓글 작성자", on_delete=models.CASCADE)
     articles = models.ForeignKey('Article', verbose_name="게시글", on_delete=models.CASCADE)
     comments = models.CharField(('댓글 내용'), max_length=200)
 
